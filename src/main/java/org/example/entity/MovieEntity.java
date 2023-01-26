@@ -23,4 +23,6 @@ public class MovieEntity {
     private String releaseDate;
     private String duration;
     private String description;
+    @ManyToOne
+    private UserEntity userEntities;
 }
