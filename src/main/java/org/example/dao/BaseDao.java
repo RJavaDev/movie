@@ -6,5 +6,5 @@ public interface BaseDao<T,R> {
     T findById(int id);
     List<T> findAll();
 
-    void save(R r);
+    T save(R r);
 }

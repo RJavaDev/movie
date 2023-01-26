@@ -1,7 +1,8 @@
 package org.example.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.UserRequestDto;
+import org.example.dto.UserLoginRequest;
+import org.example.dto.UserRegisterRequest;
 import org.example.entity.UserEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 @RequiredArgsConstructor
-public class UserDao implements BaseDao<UserEntity, UserRequestDto>{
+public class UserDao implements BaseDao<UserEntity, UserRegisterRequest>{
     private final SessionFactory sessionFactory;
 
     @Override
@@ -34,12 +35,21 @@ public class UserDao implements BaseDao<UserEntity, UserRequestDto>{
     }
 
     @Override
-    public void save(UserRequestDto userRequestDto) {
+    public UserEntity save(UserRegisterRequest userRegisterRequest) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(userRequestDto);
+        UserEntity userEntity = (UserEntity)session.save(userRegisterRequest);
         session.getTransaction().commit();
         session.close();
+        return userEntity;
+    }
+    public UserEntity login(UserLoginRequest userLoginRequest){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        UserEntity user = (UserEntity) session.createQuery("from UserEntity where userName = " + userLoginRequest.getUserName() + " and password = " + userLoginRequest.getPassword());
+        session.getTransaction().commit();
+        session.close();
+        return user;
     }
 
 }

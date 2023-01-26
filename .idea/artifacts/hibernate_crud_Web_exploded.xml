@@ -2,11 +2,11 @@
   <artifact type="exploded-war" name="hibernate_crud:Web exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/hibernate_crud_Web_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="hibernate_crud/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="hibernate_crud" />
           <element id="jpa-descriptors" facet="hibernate_crud/jpa/JPA" />
+          <element id="jpa-descriptors" facet="movie/jpa/JPA" />
+          <element id="module-output" name="movie" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.hibernate.orm:hibernate-core:6.1.6.Final" />
@@ -54,7 +54,7 @@
           <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf-spring6:3.1.1.RELEASE" />
         </element>
       </element>
-      <element id="artifact" artifact-name="movie:Web exploded" />
+      <element id="javaee-facet-resources" facet="movie/web/Web" />
     </root>
   </artifact>
 </component>

@@ -2,7 +2,6 @@ package org.example.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.MovieRequestDto;
-import org.example.dto.UserRequestDto;
 import org.example.entity.MovieEntity;
 import org.example.entity.UserEntity;
 import org.hibernate.Session;
@@ -36,12 +35,13 @@ public class MovieDao implements BaseDao<MovieEntity, MovieRequestDto>{
     }
 
     @Override
-    public void save(MovieRequestDto movieRequestDto) {
+    public MovieEntity save(MovieRequestDto movieRequestDto) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(movieRequestDto);
+        MovieEntity save = (MovieEntity) session.save(movieRequestDto);
         session.getTransaction().commit();
         session.close();
+        return save;
     }
     public void delete(int id){
         Session session = sessionFactory.openSession();
