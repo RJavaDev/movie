@@ -24,4 +24,8 @@ public class HomeController {
         model.addAttribute("userList", userDao.findAll());
         return "home";
     }
+    @GetMapping("/login")
+    public String login(){
+        return "login/login";
+    }
 }
