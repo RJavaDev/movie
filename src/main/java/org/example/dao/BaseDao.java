@@ -2,11 +2,9 @@ package org.example.dao;
 
 import java.util.List;
 
-public interface BaseDao<T> {
-    T getById(int id);
-    List<T> getList();
-    boolean delete(int id);
+public interface BaseDao<T,R> {
+    T findById(int id);
+    List<T> findAll();
 
-    boolean add(T t);
-
+    void save(R r);
 }

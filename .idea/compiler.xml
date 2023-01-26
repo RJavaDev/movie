@@ -7,8 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="movie" />
+        <module name="hibernate_crud" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="movie" target="19" />
+    </bytecodeTargetLevel>
   </component>
 </project>

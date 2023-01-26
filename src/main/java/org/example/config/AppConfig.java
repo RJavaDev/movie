@@ -1,38 +1,31 @@
 package org.example.config;
-import org.example.dao.MovieDao;
-import org.example.dao.UserDao;
-import org.example.model.Comment;
-import org.example.model.Movie;
-import org.example.model.User;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
-
-
-@org.springframework.context.annotation.Configuration
+@ComponentScan(basePackages = "org.example")
+@Configuration
 public class AppConfig implements WebMvcConfigurer {
-
     @Bean
-    SessionFactory sessionFactory(){
-        return new Configuration().configure()
-                .addAnnotatedClass(Movie.class)
-                .addAnnotatedClass(Comment.class)
-                .addAnnotatedClass(User.class)
-                .buildSessionFactory();
-    }
-    @Bean
-    UserDao userDao(){
-        return new UserDao(sessionFactory());
+    public ViewResolver configureViewResolvers() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/view/");
+        viewResolver.setSuffix(".jsp");
+        viewResolver.setViewClass(JstlView.class);
+        return viewResolver;
     }
 
-    @Bean
-    MovieDao movieDao(){
-        return new MovieDao(sessionFactory());
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
-
 }

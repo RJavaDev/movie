@@ -1,34 +1,55 @@
 package org.example.dao;
 
-import org.example.model.Movie;
+import lombok.RequiredArgsConstructor;
+import org.example.dto.MovieRequestDto;
+import org.example.dto.UserRequestDto;
+import org.example.entity.MovieEntity;
+import org.example.entity.UserEntity;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public class MovieDao implements BaseDao<Movie> {
-    private SessionFactory sessionFactory;
-
-    public MovieDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+@Repository
+@RequiredArgsConstructor
+public class MovieDao implements BaseDao<MovieEntity, MovieRequestDto>{
+    private final SessionFactory sessionFactory;
+    @Override
+    public MovieEntity findById(int id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        MovieEntity movieEntity = session.get(MovieEntity.class, id);
+        session.getTransaction().commit();
+        session.close();
+        return movieEntity;
     }
 
     @Override
-    public Movie getById(int id) {
-        return null;
+    public List<MovieEntity> findAll() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List MovieEntityList = session.createQuery("from MovieEntity ").list();
+        session.getTransaction().commit();
+        session.close();
+        return MovieEntityList;
     }
 
     @Override
-    public List<Movie> getList() {
-        return null;
+    public void save(MovieRequestDto movieRequestDto) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(movieRequestDto);
+        session.getTransaction().commit();
+        session.close();
+    }
+    public void delete(int id){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        MovieEntity movie = findById(id);
+        session.remove(movie);
+        session.getTransaction().commit();
+        session.close();
     }
 
-    @Override
-    public boolean delete(int id) {
-        return false;
-    }
-
-    @Override
-    public boolean add(Movie movie) {
-        return false;
-    }
 }

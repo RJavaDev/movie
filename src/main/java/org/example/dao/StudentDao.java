@@ -1,18 +1,19 @@
 package org.example.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.UserRequestDto;
+import org.example.dto.StudentRequestDto;
 import org.example.entity.UserEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
-public class UserDao implements BaseDao<UserEntity, UserRequestDto>{
-    private final SessionFactory sessionFactory;
+public class StudentDao implements BaseDao<UserEntity, StudentRequestDto>{
 
+    private final SessionFactory sessionFactory;
     @Override
     public UserEntity findById(int id) {
         Session session = sessionFactory.openSession();
@@ -25,19 +26,14 @@ public class UserDao implements BaseDao<UserEntity, UserRequestDto>{
 
     @Override
     public List<UserEntity> findAll() {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<UserEntity> fromUserEntity = session.createQuery("from UserEntity ").list();
-        session.getTransaction().commit();
-        session.close();
-        return fromUserEntity;
+        return null;
     }
 
     @Override
-    public void save(UserRequestDto userRequestDto) {
+    public void save(StudentRequestDto studentRequestDto) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(userRequestDto);
+        session.save(studentRequestDto);
         session.getTransaction().commit();
         session.close();
     }
