@@ -26,4 +26,8 @@ public class HomeController {
         model.addAttribute("movieInfo", userDao.findById(id));
         return "movie-info";
     }
+    @GetMapping("/login")
+    public String login(){
+        return "login/login";
+    }
 }
