@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 
 @NoArgsConstructor
-@Service
 public class AuthService {
 
     private UserDao userDao;

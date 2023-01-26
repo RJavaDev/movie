@@ -1,6 +1,7 @@
 package org.example.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.example.dao.UserDao;
 import org.example.dto.UserLoginRequest;
 import org.example.dto.UserRegisterRequest;
@@ -17,29 +18,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
+@RequiredArgsConstructor
 public class AuthController {
-
-    private final AuthService authService;
     private final UserDao userDao;
 
-    @Autowired
-    public AuthController(AuthService authService, UserDao userDao) {
-        this.authService = authService;
-        this.userDao = userDao;
-    }
 
-
-    @PostMapping("register")
+    @PostMapping("/register")
     public String register(
             Model model,
             @ModelAttribute UserRegisterRequest userRegisterRequest
     ) {
-        boolean isSuccess = authService.addUser(userRegisterRequest);
-        return isSuccess ? "login" : "register";
+        UserEntity save = userDao.save(userRegisterRequest);
+        return save != null ? "login" : "register";
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public String login(
             Model model,
             HttpServletRequest httpServletRequest,
@@ -47,7 +41,7 @@ public class AuthController {
 
     ) {
         boolean condition;
-        UserEntity currentUser = authService.login(loginRequest);
+        UserEntity currentUser = userDao.login(loginRequest);
         if(currentUser==null){
             condition = true;
             model.addAttribute("condition",condition);
