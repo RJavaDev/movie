@@ -1,0 +1,18 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+</head>
+<body>
+        <h1>B24 example</h1>
+        <table>
+            <th:block th:each="user : ${userList}">
+                <tr>
+                    <td th:text="${user.getFullName()}">...</td>
+                    <td th:text="${user.getEmail()}">...</td>
+                </tr>
+            </th:block>
+        </table>
+
+</body>
+</html>

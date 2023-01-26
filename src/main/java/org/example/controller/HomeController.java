@@ -20,11 +20,8 @@ public class HomeController {
         return "home";
     }
     @GetMapping("list")
-    public ModelAndView list(HttpServletRequest request){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("home");
-        modelAndView.addObject("userList",userDao.findAll());
-//        request.setAttribute("userList", userDao.findAll());
-        return modelAndView;
+    public String list(Model model){
+        model.addAttribute("userList", userDao.findAll());
+        return "home";
     }
 }
