@@ -1,63 +1,54 @@
 package org.example.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.example.dao.UserDao;
-import org.example.dto.UserLoginRequest;
 import org.example.dto.UserRegisterRequest;
-import org.example.entity.UserEntity;
+import org.example.model.UserEntity;
 import org.example.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 @Controller
-@RequestMapping("")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserDao userDao;
+    private final AuthService authService;
 
+    @GetMapping("")
+    public String main(){
+        return "login/login";
+    }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public String register(
             Model model,
             @ModelAttribute UserRegisterRequest userRegisterRequest
     ) {
-        UserEntity save = userDao.save(userRegisterRequest);
-        return save != null ? "login" : "register";
+        boolean save = authService.addUser(userRegisterRequest);
+        return "login/login";
     }
 
-    @PostMapping("/login")
+
+    @PostMapping("login")
     public String login(
-            Model model,
-            HttpServletRequest httpServletRequest,
-            @ModelAttribute UserLoginRequest loginRequest
-
+            HttpServletRequest request,
+            Model model
     ) {
-        boolean condition;
-        UserEntity currentUser = userDao.login(loginRequest);
-        if(currentUser==null){
-            condition = true;
-            model.addAttribute("condition",condition);
-            return "index";
+        UserEntity currentUser = authService.login(request);
+        String attribute = request.getParameter("userName");
+        if (currentUser != null) {
+            HttpSession httpSession = request.getSession();
+            httpSession.setAttribute("userId", currentUser.getId());
+        } else if (attribute != null) {
+            model.addAttribute("text", "INCORRECT PASSWORD OR PHONE NUMBER");
+            return "login/login";
         }
-        HttpSession session = httpServletRequest.getSession();
-        session.setAttribute("userId",currentUser.getId());
-        model.addAttribute("message", "username or password is incorrect");
-        model.addAttribute("user", currentUser);
-        return "home";
+        return "login/login";
     }
-
-//    @GetMapping("/logOut")
-//    public String logOut(HttpServletRequest req){
-//        req.getSession().setAttribute("userId",null);
-//        req.getSession().setMaxInactiveInterval(0);
-//        return "/index";
-//    }
 }

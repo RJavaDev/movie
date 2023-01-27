@@ -205,18 +205,19 @@
         <button type='button'onclick='login()'class='toggle-btn'>Log In</button>
         <button type='button'onclick='register()'class='toggle-btn'>Register</button>
       </div>
-      <form id='login' class='input-group-login'>
-        <input type='text'class='input-field'placeholder='Email Id' required >
-        <input type='password'class='input-field'placeholder='Enter Password' required>
+      <form action="/login" method="post"  id='login' class='input-group-login'>
+        <input name="userName" type='text'class='input-field'placeholder='User name ' required >
+        <input name="password" type='password'class='input-field'placeholder='Enter Password' required>
         <input type='checkbox'class='check-box'><span>Remember Password</span>
         <button type='submit'class='submit-btn'>Log in</button>
       </form>
-      <form id='register' class='input-group-register'>
-        <input type='text'class='input-field'placeholder='First Name' required>
-        <input type='text'class='input-field'placeholder='Last Name ' required>
-        <input type='email'class='input-field'placeholder='Email Id' required>
-        <input type='password'class='input-field'placeholder='Enter Password' required>
-        <input type='password'class='input-field'placeholder='Confirm Password'  required>
+      <form action="/register" method="post" id='register' class='input-group-register'>
+        <input name="fullName" type='text'class='input-field'placeholder='Full name' required>
+<!--        <input type='text'class='input-field'placeholder='Last Name ' required>-->
+        <input name="email" type='email'class='input-field'placeholder='Email Id' required>
+        <input name="userName" type='text'class='input-field'placeholder='User name' required>
+        <input name="password" type='password'class='input-field'placeholder='Enter Password' required>
+<!--        <input type='password'class='input-field'placeholder='Confirm Password'  required>-->
         <input type='checkbox'class='check-box'><span>I agree to the terms and                                                   conditions</span>
         <button type='submit'class='submit-btn'>Register</button>
       </form>

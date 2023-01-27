@@ -1,6 +1,9 @@
 package org.example.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.model.Comment;
+import org.example.model.Movie;
+import org.example.model.UserEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -22,8 +25,9 @@ public class AppContext {
     public LocalSessionFactoryBean localSessionFactoryBean(){
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
+        sessionFactory.setAnnotatedClasses(UserEntity.class,Movie.class, Comment.class);
         sessionFactory.setPackagesToScan(new String[] {
-                "org.example.entity"
+                "org.example.model"
         });
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;

@@ -1,56 +1,51 @@
 package org.example.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.MovieRequestDto;
-import org.example.model.Movie;
+import org.example.dto.CommentRequestDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
 @RequiredArgsConstructor
-public class MovieDao implements BaseDao<Movie, MovieRequestDto> {
+public class Comment implements BaseDao<Comment, CommentRequestDto>{
     private final SessionFactory sessionFactory;
-
     @Override
-    public Movie findById(int id) {
+    public Comment findById(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Movie movieEntity = session.get(Movie.class, id);
+        Comment comment = session.get(Comment.class, id);
         session.getTransaction().commit();
         session.close();
-        return movieEntity;
+        return comment;
     }
 
     @Override
-    public List<Movie> findAll() {
+    public List<Comment> findAll() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<Movie> movies = session.createQuery("from Movie ").list();
+        List<Comment> commentList = session.createQuery("from Comment").list();
         session.getTransaction().commit();
         session.close();
-        return movies;
+        return commentList;
     }
 
     @Override
-    public Movie save(MovieRequestDto movieRequestDto) {
+    public Comment save(CommentRequestDto commentRequestDto) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Movie save = (Movie) session.save(movieRequestDto);
+        Comment comment = (Comment) session.save(commentRequestDto);
         session.getTransaction().commit();
         session.close();
-        return save;
+        return comment;
     }
-
     public void delete(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Movie movie = findById(id);
-        session.remove(movie);
+        Comment comment = findById(id);
+        session.remove(comment);
         session.getTransaction().commit();
         session.close();
     }
-
 }
